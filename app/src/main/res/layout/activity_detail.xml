@@ -27,7 +27,7 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:bindingImageUrl="@{viewModel.item.thumbnailUrl}"
+            app:imageUrlCoil="@{viewModel.item.url}"
             app:layout_constraintTop_toBottomOf="@+id/materialToolbarDetail"
             tools:layout_editor_absoluteX="16dp"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
