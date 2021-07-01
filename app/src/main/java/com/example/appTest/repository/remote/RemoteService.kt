@@ -6,11 +6,10 @@ import com.example.appTest.util.api.APIResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
+import retrofit2.http.Path
 
 interface RemoteService {
-//    @GET("getItems")
-//    fun getItems(@HeaderMap headers: Map<String, String>): Flow<APIResponse<DataResponse<List<Item>>>>
 
-    @GET("albums/1/photos")
-    fun getItems(): Flow<APIResponse<List<Item>>>
+    @GET("albums/{page}/photos")
+    fun getItems(@Path("page") page: Int): Flow<APIResponse<List<Item>>>
 }

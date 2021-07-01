@@ -52,37 +52,37 @@ class AdapterItemHome(private val onItemClick: (item: Item) -> Unit) :
         }
     }
 
-    fun getFilter(onCount: (count: Int) -> Unit): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charSearch = constraint.toString()
-                val foodList = ArrayList<Item>()
-                if (charSearch.isEmpty()) {
-                } else {
-                    for (item in currentList) {
-                        if (item.title.toLowerCase(Locale.ROOT)
-                                .contains(charSearch.toLowerCase(Locale.ROOT))
-                        ) {
-                            foodList.add(item)
-                        }
-                    }
-                }
-                val filterResults = FilterResults()
-                filterResults.values = foodList
-                return filterResults
-            }
-
-            @Suppress("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                submitList(
-                    results?.values as ArrayList<Item>
-                )
-                val exampleList: ArrayList<Item> = results.values as ArrayList<Item>
-                onCount(exampleList.count())
-                notifyDataSetChanged()
-            }
-        }
-    }
+//    fun getFilter(onCount: (count: Int) -> Unit): Filter {
+//        return object : Filter() {
+//            override fun performFiltering(constraint: CharSequence?): FilterResults {
+//                val charSearch = constraint.toString()
+//                val foodList = ArrayList<Item>()
+//                if (charSearch.isEmpty()) {
+//                } else {
+//                    for (item in currentList) {
+//                        if (item.title.toLowerCase(Locale.ROOT)
+//                                .contains(charSearch.toLowerCase(Locale.ROOT))
+//                        ) {
+//                            foodList.add(item)
+//                        }
+//                    }
+//                }
+//                val filterResults = FilterResults()
+//                filterResults.values = foodList
+//                return filterResults
+//            }
+//
+//            @Suppress("UNCHECKED_CAST")
+//            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+//                submitList(
+//                    results?.values as ArrayList<Item>
+//                )
+//                val exampleList: ArrayList<Item> = results.values as ArrayList<Item>
+//                onCount(exampleList.count())
+//                notifyDataSetChanged()
+//            }
+//        }
+//    }
 
 }
 

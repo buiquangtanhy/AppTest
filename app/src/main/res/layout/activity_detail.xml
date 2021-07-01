@@ -48,6 +48,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
-
-
-    <!--    bindingImageUrl="@{viewModel.item.url}"-->

@@ -4,6 +4,7 @@ package com.example.appTest.repository
 import com.example.appTest.di.IODispatcher
 import com.example.appTest.entity.Item
 import com.example.appTest.repository.remote.RemoteService
+import com.example.appTest.ui.WorkoutInstance
 import com.example.appTest.util.FetchLimiter
 import com.example.appTest.util.api.Resource
 import com.example.appTest.util.api.networkBoundResource
@@ -30,7 +31,7 @@ class RepoImp @Inject constructor(
 
     override fun getItems(force: Boolean): Flow<Resource<List<Item>>> =
         networkBoundResource(fetchFromRemote = {
-            remoteService.getItems()
+            remoteService.getItems(WorkoutInstance.getInstance().getPage())
         }, remoteResponse = {
             val dataResponse = it ?: ArrayList()
             flow {

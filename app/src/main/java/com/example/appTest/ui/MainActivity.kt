@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.appTest.R
 import com.example.appTest.databinding.ActivityMainBinding
@@ -23,8 +25,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     private var progressDialog: AlertDialog? = null
-    private val listItem = ArrayList<Item>()
+    private var listItem = ArrayList<Item>()
+    private val page = 1
+//    private var layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
+    private var layoutManager = LinearLayoutManager(this)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -40,25 +45,64 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             intent.putExtra(BUNDLE_KEY, bundle)
             startActivity(intent)
         })
+
         binding.recyclerViewHome.adapter = itemAdapter
-        binding.recyclerViewHome.layoutManager = StaggeredGridLayoutManager(
-            2,
-            StaggeredGridLayoutManager.VERTICAL
-        )
+        binding.recyclerViewHome.layoutManager = layoutManager
+        binding.recyclerViewHome.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (!recyclerView.canScrollVertically(1)) {
+                    WorkoutInstance.getInstance().setPage(page + 1)
+                    processAlbums(itemAdapter)
+                    binding.recyclerViewHome.adapter = itemAdapter
+                    binding.recyclerViewHome.layoutManager = layoutManager
+                    Log.d("BBBB", "ItemAdapter size : ${itemAdapter.currentList.size}")
+                    // LOAD MORE
+                }
+            }
+        })
 
-        init()
-        observe(itemAdapter)
+//        loadNextPage(itemAdapter)
+        processAlbums(itemAdapter)
+//        init()
+//        observe(itemAdapter)
     }
 
-    private fun observe(itemAdapterItemHome: AdapterItemHome) {
-        itemAdapterItemHome.submitList(listItem)
-    }
+//    private fun observe(itemAdapterItemHome: AdapterItemHome) {
+//        itemAdapterItemHome.submitList(listItem)
+//    }
 
-    private fun init() {
-        processAlbums()
-    }
+//    private fun init() {
+//        processAlbums(itemAdapterItemHome)
+//    }
+//    fun isLastVisible(): Boolean {
+//        val layoutManager = binding.recyclerViewHome.layoutManager as LinearLayoutManager
+//        val pos = layoutManager.findLastCompletelyVisibleItemPosition()
+//        val numItems: Int = binding.recyclerViewHome.adapter!!.itemCount
+//        return pos >= numItems - 1
+//    }
 
-    private fun processAlbums() {
+//    private fun loadNextPage(itemAdapterItemHome: AdapterItemHome) {
+//        binding.recyclerViewHome.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                val page = 1
+//                if (dy > 0) {
+//                    if (isLastVisible()) {
+//                        WorkoutInstance.getInstance().setPage(page + 1)
+//                        val a = WorkoutInstance.getInstance().getPage()
+//                        processAlbums(itemAdapterItemHome)
+//                        Log.d("BBBB","Page $a")
+//
+//                        Log.d("BBB","Lis Size ${listItem.size}")
+//                        Log.d("BBB","Lis SIze ${itemAdapterItemHome.currentList.size}")
+//                    }
+//                }
+//                super.onScrolled(recyclerView, dx, dy)
+//            }
+//        })
+//    }
+
+    private fun processAlbums(itemAdapterItemHome: AdapterItemHome) {
         progressDialog = progressDialog(this, getString(R.string.logging_msg))
 
         viewModel.getAlbums().observe(this) { resource ->
@@ -74,9 +118,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                 }
                 is Resource.Success -> {
                     val list: List<Item> = resource.data
-                    listItem.addAll(list)
-                    Log.d("aaa","List Item = $listItem")
+                    Log.d("aaa", "List Item = $list")
+                    Log.d("aaa", "List Item 1 = ${listItem.size}")
                     progressDialog?.dismiss()
+                    listItem.addAll(list)
+                    itemAdapterItemHome.submitList(listItem)
+                    Log.d("aaa", "List Item 1  = $list")
+                    Log.d("aaa", "List Item 1 1  = ${listItem.size}")
                     Log.d(
                         "TAG_MAIN",
                         "Resource.Success resource.data: ${resource.data} "
@@ -86,4 +134,3 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         }
     }
 }
-

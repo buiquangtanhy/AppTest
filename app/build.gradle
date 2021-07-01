@@ -69,7 +69,8 @@ dependencies {
     // ====================================== LOGGING ==============================================
 
     implementation "com.jakewharton.timber:timber:$timber_version"
-
+    //RECYCLER ADAPTER
+    implementation 'io.github.manneohlund:smart-recycler-adapter:4.1.0'
     // ==================================== RETROFIT ===============================================
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -89,7 +90,6 @@ dependencies {
         // Excludes the support library because it's already included by Glide.
         transitive = false
     }
-//    implementation 'com.google.dagger:hilt-android:2.33-beta'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation("io.coil-kt:coil:1.2.2")
 

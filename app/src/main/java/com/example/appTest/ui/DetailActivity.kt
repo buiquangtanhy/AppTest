@@ -6,7 +6,6 @@ import com.example.appTest.R
 import com.example.appTest.databinding.ActivityDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
 
