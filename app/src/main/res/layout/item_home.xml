@@ -22,7 +22,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:onClick="@{clickListener}"
             app:cardBackgroundColor="@color/primaryColor"
@@ -34,8 +34,8 @@
 
             <ImageView
                 android:id="@+id/imgItem"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="20dp"
                 app:imageUrlCoil="@{item.thumbnailUrl}"

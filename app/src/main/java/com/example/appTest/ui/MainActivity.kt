@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.appTest.R
 import com.example.appTest.databinding.ActivityMainBinding
@@ -28,8 +29,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     private var listItem = ArrayList<Item>()
     private val page = 1
 //    private var layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+//    private var layoutManager = LayoutManager
 
-    private var layoutManager = LinearLayoutManager(this)
+
+    //    private var layoutManager = LinearLayoutManager(this)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -47,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         })
 
         binding.recyclerViewHome.adapter = itemAdapter
-        binding.recyclerViewHome.layoutManager = layoutManager
+        binding.recyclerViewHome.layoutManager
         binding.recyclerViewHome.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -55,7 +58,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                     WorkoutInstance.getInstance().setPage(page + 1)
                     processAlbums(itemAdapter)
                     binding.recyclerViewHome.adapter = itemAdapter
-                    binding.recyclerViewHome.layoutManager = layoutManager
+                    binding.recyclerViewHome.layoutManager
                     Log.d("BBBB", "ItemAdapter size : ${itemAdapter.currentList.size}")
                     // LOAD MORE
                 }
@@ -120,9 +123,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
                     val list: List<Item> = resource.data
                     Log.d("aaa", "List Item = $list")
                     Log.d("aaa", "List Item 1 = ${listItem.size}")
-                    progressDialog?.dismiss()
                     listItem.addAll(list)
                     itemAdapterItemHome.submitList(listItem)
+                    progressDialog?.dismiss()
+
                     Log.d("aaa", "List Item 1  = $list")
                     Log.d("aaa", "List Item 1 1  = ${listItem.size}")
                     Log.d(
